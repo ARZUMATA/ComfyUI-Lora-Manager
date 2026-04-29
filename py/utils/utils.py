@@ -78,9 +78,13 @@ def get_lora_info_absolute(lora_name):
         cache = await scanner.get_cached_data()
 
         for item in cache.raw_data:
-            if item.get("file_name") == lora_name:
-                file_path = item.get("file_path")
-                if file_path:
+            file_name = item.get("file_name")
+            folder = item.get("folder")
+            file_path = item.get("file_path")
+            extension = file_path.split(file_name)[1] if file_name in file_path else ".safetensors"
+            lora_name_with_path = f"{folder}/{file_name}{extension}" if folder else f"{file_name}{extension}"
+
+            if lora_name_with_path == lora_name:
                     # Return absolute path directly
                     # Get trigger words from civitai metadata
                     civitai = item.get("civitai", {})
