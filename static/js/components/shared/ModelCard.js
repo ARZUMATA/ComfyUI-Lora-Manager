@@ -166,7 +166,9 @@ async function toggleFavorite(card) {
 function handleSendToWorkflow(card, replaceMode, modelType) {
     if (modelType === MODEL_TYPES.LORA) {
         const usageTips = JSON.parse(card.dataset.usage_tips || '{}');
-        const loraSyntax = buildLoraSyntax(card.dataset.file_name, usageTips);
+        const extension = card.dataset.filepath && card.dataset.file_name ? card.dataset.filepath.split(card.dataset.file_name)[1] : '.safetensors';
+        const loraName = `${card.dataset.folder}/${card.dataset.file_name}${extension}`;
+        const loraSyntax = buildLoraSyntax(loraName, usageTips);
         sendLoraToWorkflow(loraSyntax, replaceMode, 'lora');
     } else if (modelType === MODEL_TYPES.CHECKPOINT) {
         const modelPath = card.dataset.filepath;
