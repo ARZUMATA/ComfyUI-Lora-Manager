@@ -132,12 +132,13 @@ def get_lora_info_absolute(lora_name):
                     break
             path_name = f"{folder}/{file_name_no_ext}".replace("\\", "/") if folder else file_name_no_ext
 
-            if lora_name_no_ext == file_name_no_ext:
-                file_path = item.get("file_path")
-                if file_path:
-                    civitai = item.get("civitai", {})
-                    trigger_words = civitai.get("trainedWords", []) if civitai else []
-                    return file_path, trigger_words
+            # No Path = Error
+            # if lora_name_no_ext == file_name_no_ext:
+            #     file_path = item.get("file_path")
+            #     if file_path:
+            #         civitai = item.get("civitai", {})
+            #         trigger_words = civitai.get("trainedWords", []) if civitai else []
+            #         return file_path, trigger_words
 
             if lora_name_no_ext == path_name:
                 file_path = item.get("file_path")
@@ -152,12 +153,13 @@ def get_lora_info_absolute(lora_name):
                 elif best_fallback is None:
                     best_fallback = item
 
-        if best_fallback:
-            file_path = best_fallback.get("file_path")
-            if file_path:
-                civitai = best_fallback.get("civitai", {})
-                trigger_words = civitai.get("trainedWords", []) if civitai else []
-                return file_path, trigger_words
+        # Stop fallback.
+        # if best_fallback:
+        #     file_path = best_fallback.get("file_path")
+        #     if file_path:
+        #         civitai = best_fallback.get("civitai", {})
+        #         trigger_words = civitai.get("trainedWords", []) if civitai else []
+        #         return file_path, trigger_words
 
         return lora_name, []
 
